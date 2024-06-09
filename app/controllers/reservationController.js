@@ -110,6 +110,5 @@ module.exports = {
   getReservation,
   createReservation,
   updateReservation,
-  deleteReservation,
   getMemberDetails
 };
