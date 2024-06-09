@@ -1,5 +1,6 @@
 const Reservation = require('../models/reservationModel')
 
+// Retrieve all Reservations from the database.
 const getReservations = async (req, res) => {
   try {
     const reservations = await Reservation.find({});
@@ -9,6 +10,7 @@ const getReservations = async (req, res) => {
   }
 };
 
+//Retrive one Reservation
 const getReservation = async (req, res) => {
   try {
     const { id } = req.params;
@@ -21,6 +23,7 @@ const getReservation = async (req, res) => {
   }
 };
 
+//Create Reservation and save into Database
 const createReservation = async (req, res) => {
   try {
     const reservation = await Reservation.create(req.body);
@@ -30,6 +33,7 @@ const createReservation = async (req, res) => {
   }
 };
 
+//update Reservation
 const updateReservation = async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,27 +52,11 @@ const updateReservation = async (req, res) => {
   }
 };
 
-const deleteReservation = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const reservation = await Reservation.findByIdAndDelete(id);
-
-    if (!reservation) {
-      return res.status(404).json({ message: "Reservation not found" });
-    }
-
-    res.status(200).json({ message: "Reservation deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
+//Getting member details 
 const getMemberDetails = async (req, res) => {
     try{
         const { id } = req.params;
         const reservations = await Reservation.find({});
-       // const memberReservations = reservations.filter(it => it.guestMemberId === id);
        const memberReservations = reservations.filter(it => it.guestMemberId === Number(id));
         const upcomingStays = memberReservations.filter(it => new Date(it.arrivalDate) >= Date.now());
         const pastStays = memberReservations.filter(it => new Date(it.arrivalDate) < Date.now());
@@ -108,6 +96,7 @@ const numberOfNights = (stays) => {
     return count;
 }
 
+//Calculating Amount for Stays
 const getAmount = (stays) => {
     let amount = 0;
     for(let s of stays){
