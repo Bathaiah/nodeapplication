@@ -15,17 +15,38 @@ const getReservation = async (req, res) => {
   try {
     const { id } = req.params;
     //const reservation = await Reservation.findById(id);
-    const reservations = await Reservation.find({});
-    const registeredId = reservations.find(it => it.reservationId === Number(id));
-    res.status(200).json(registeredId);
+    const reservations = await Reservation.findOne({reservationId: id});
+    //const registeredId = reservations.find(it => it.reservationId === Number(id));
+    res.status(200).json(reservations);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 
 //Create Reservation and save into Database
 const createReservation = async (req, res) => {
   try {
+    const { arrivalDate, departureDate, reservationId, guestMemberId } = req.body;
+
+    if (!arrivalDate || !departureDate || !reservationId || !guestMemberId) {
+         res.status(400).json({ message: "All fields are required" });
+    }
+
+    if (isNaN(Date.parse(arrivalDate))) {
+         res.status(400).json({ message: "Arrival date is not valid" });
+    }
+
+    if (isNaN(Date.parse(departureDate))) {
+        res.status(400).json({ message: "Departure date is not valid" });
+    }
+
+    if (new Date(arrivalDate) <= new Date()) {
+        res.status(400).json({ message: "Arrival date must be in the future" });
+    }
+
+    if (new Date(departureDate) <= new Date(arrivalDate)) {
+        res.status(400).json({ message: "Departure date must be after arrival date" });
+    }
     const reservation = await Reservation.create(req.body);
     res.status(200).json(reservation);
   } catch (error) {
@@ -38,15 +59,14 @@ const updateReservation = async (req, res) => {
   try {
     const { id } = req.params;
 
-    //const reservation = await Reservation.findByIdAndUpdate(id, req.body);
-    // if (!reservations) {
-    //     return res.status(404).json({ message: "Reservation not found" });
-    //   }
-    const reservations = await Reservation.find({});
-    const givenReservation = reservations.find(it => it.reservationId === Number(id));
-    givenReservation.status = 'cancelled';
-    const updatedReservation = await Reservation.findByIdAndUpdate(givenReservation._id, givenReservation);
-    res.status(200).json(updatedReservation);
+    const reservation = await Reservation.findOne({reservationId: id});
+    if (!reservation) {
+         res.status(404).json({ message: "Reservation not found" });
+      }else{
+        const reservations = await Reservation.updateOne({reservationId: id}, {$set: req.body});
+        res.status(200).json(reservations);
+      }
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -56,10 +76,10 @@ const updateReservation = async (req, res) => {
 const getMemberDetails = async (req, res) => {
     try{
         const { id } = req.params;
-        const reservations = await Reservation.find({});
-       const memberReservations = reservations.filter(it => it.guestMemberId === Number(id));
-        const upcomingStays = memberReservations.filter(it => new Date(it.arrivalDate) >= Date.now());
-        const pastStays = memberReservations.filter(it => new Date(it.arrivalDate) < Date.now());
+        const memberReservations = await Reservation.find({guestMemberId: id});
+       //const memberReservations = reservations.filter(it => it.guestMemberId === Number(id));
+        const upcomingStays = memberReservations.filter(it => new Date(it.arrivalDate) >= Date.now() && it.status === 'active');
+        const pastStays = memberReservations.filter(it => new Date(it.arrivalDate) < Date.now() && it.status === 'active');
         const cancelledStays = memberReservations.filter(it => it.status === 'cancelled');
         const response = {
             guestMemberId: id,
