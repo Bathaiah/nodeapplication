@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "1f32e2fa-50a9-4a4b-a8b3-051c4aa06442",
+		"name": "RegistrationCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5542476",
+		"_collection_link": "https://red-star-457928.postman.co/workspace/New-Team-Workspace~27161deb-1c88-4e67-ae16-472f6bc1ceb7/collection/5542476-1f32e2fa-50a9-4a4b-a8b3-051c4aa06442?action=share&source=collection_link&creator=5542476"
+	},
+	"item": [
+		{
+			"name": "getAllReservations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getReservationById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/reservations/6700065",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reservations",
+						"6700065"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateReservationById",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n       \"reservationId\": 6700065,\r\n        \"guestMemberId\": 8658345,\r\n        \"guestName\": \"VENKy K\",\r\n        \"hotelName\": \"MINERVAG\",\r\n        \"arrivalDate\": \"2024-06-14T18:30:00.000Z\",\r\n        \"departureDate\": \"2024-06-16T18:30:00.000Z\",\r\n        \"status\": \"cancelled\",\r\n        \"baseStayAmount\": 3000,\r\n        \"taxAmount\": 270\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/reservations/6700065",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reservations",
+						"6700065"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMemberDetails",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservationId\": 676434,\r\n    \"guestMemberId\": 8678756,\r\n    \"guestName\": \"KOPPALA\",\r\n    \"hotelName\": \"SARAVANA\",\r\n    \"arrivalDate\": \"2024-06-14T18:30:00.000Z\",\r\n    \"departureDate\": \"2024-06-16T18:30:00.000Z\",\r\n    \"status\": \"cancelled\",\r\n    \"baseStayAmount\": 3000,\r\n    \"taxAmount\": 270\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/reservations/memberId/111123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reservations",
+						"memberId",
+						"111123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n       \"reservationId\": 67346,\r\n        \"guestMemberId\": 111111,\r\n        \"guestName\": \"KRANTHI MANOHAR\",\r\n        \"hotelName\": \"HILLS\",\r\n        \"arrivalDate\": \"2024-07-17T18:30:00.000Z\",\r\n        \"departureDate\": \"2024-07-19T18:30:00.000Z\",\r\n        \"status\": \"cancel\",\r\n        \"baseStayAmount\": 67200,\r\n        \"taxAmount\": 2776\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
